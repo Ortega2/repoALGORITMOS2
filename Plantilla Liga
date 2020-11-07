@@ -1,0 +1,568 @@
+
+#include <cstdlib>
+#include <iostream>
+#include <string.h>
+#include <functional>
+#include <stdio.h>
+#include <conio.h>
+#include <vector>
+
+#define ENTER 13
+#define BACKSPACE 8
+
+using namespace std;
+
+
+struct fecha{
+        int dia;
+        int mes;
+        int anyo;
+};
+
+
+struct jugador{
+        char nombre[80];
+        struct fecha fechaNacimiento;
+        int ficha;
+        char posicion[20];
+        int puntosLiga;
+        int ultimosEquipos [3];
+};
+
+
+struct equipo{
+        char nombre[80];
+        char ciudad[80];
+        struct jugador plantilla[21];
+        int PO;
+   int CLUB;
+int PJ;
+int PG;
+int PE;
+int PP;
+int PTS;
+} futbol  [3][1];
+
+
+struct jugadores{
+        char nombre[80];
+        struct fecha fechaNacimiento;
+        int ficha;
+        char posicion[20];
+        int puntosLiga;
+        char equipo[80];
+};
+
+
+//muestra la fecha contenida en un struct fecha
+void mostrarFecha (struct fecha fecha){
+
+
+        cout<< fecha.dia <<"/"<< fecha.mes<<"/"<< fecha.anyo;
+
+
+}
+
+
+//copia un struct fecha "origen" en un struct fecha "destino"
+void copyfecha (struct fecha &origen, struct fecha &destino){
+
+        destino.dia = origen.dia;
+        destino.mes = origen.mes;
+        destino.anyo = origen.anyo;
+
+}
+
+equipo equipo [20] = { {"Brasil", "Brasil",                   {{"Alisson", {2, 10, 92}, 11000000, "Portero", 108, {3,12,16}},
+                                                              {"Ederson", {17, 8, 93}, 9000000,  "Defensa", 97, {2,12,18}},
+                                                              {"Mario Fernandes", {19, 9, 90}, 11000000, "Defensa", 67, {1,10,12}},
+                                                              {"Alex Sandro", {26, 2, 91}, 9000000, "Defensa", 25, {4,16,2}},
+                                                              {"Thiago Silva", {22, 9, 84}, 10000000, "Defensa", 92, {3,4,19}},
+                                                              {"Marcos Correa", {14, 5, 94}, 10000000, "Defensa", 79, {5,7,10}},
+                                                              {"Rodrigo Caio", {17, 8, 93}, 11000000, "Defensa", 106, {6,9,14}},
+                                                              {"Alex Telles", {15, 12, 92}, 7000000, "Defensa", 25, {7,11,17}},
+                                                              {"Dani Alves", {6, 5, 83}, 12000000, "Centrocampista", 14, {1,10,2}},
+                                                              {"Fabinho Tavares", {23, 10, 93}, 13000000, "Centrocampista", 97, {7,8,16}},
+                                                              {"Sousa", {22, 3, 96}, 11000000, "Centrocampista", 93, {18,8,9}},
+                                                              {"Coutinho", {12, 6, 92}, 11000000, "Centrocampista", 73, {13,12,19}},
+                                                              {"Casemiro", {23, 2, 92}, 9000000, "Centrocampista", 83, {3,2,6}},
+                                                              {"Lucas Paquetá", {27, 8, 97}, 13000000, "Centrocampista", 118, {1,16,19}},
+                                                              {"Ribeiro", {10, 4, 89}, 10000000, "Centrocampista", 82, {13,10,11}},
+                                                              {"willian", {9, 8, 88}, 15000000, "Delantero", 99, {14,15,16}},
+                                                              {"Neymar", {5, 2, 92}, 9000000, "Delantero", 1, {7,19,2}},
+                                                              {"Vinícius", {12, 7, 2000}, 13000000, "Delantero", 81, {8,12,9}},
+                                                              {"Gabriel Jesús", {3, 4, 97}, 10000000, "Delantero", 1, {9,19,12}},
+                                                              {"Firmino", {2, 10, 91}, 7000000, "Delantero", 1, {13,14,2}}
+                                                             }
+                                      },
+                                      {"Guatemala", "Guatemala",         {{"Hagen", {2, 8, 96}, 100000, "Portero", 1, {10,15,2}},
+                                                                         {"Jerez", {4, 2, 86}, 2400000, "Portero", 6, {3,10,5}},
+                                                                         {"Gallardo", {8, 4, 84}, 16000,  "Defensa", 135, {11,17,0}},
+                                                                         {"Gordillo", {17, 8, 94}, 18000,    "Defensa", 147, {9,11,0}},
+                                                                         {"Hernández", {5, 3, 92}, 12000, "Defensa", 25, {3,15,19}},
+                                                                         {"pineda", {25, 9, 93}, 15000, "Defensa", 19, {2,3,0}},
+                                                                         {"Pinto", {16, 6, 93}, 11000, "Defensa", 148, {4,6,9}},
+                                                                         {"Castillo", {1, 1, 90}, 17000, "Defensa", 142, {5,13,8}},
+                                                                         {"Aparicio", {21, 11, 92}, 13000, "Mediocampista", 1, {6,10,16}},
+                                                                         {"Lom", {14, 7, 97}, 12000,      "Mediocampista", 105, {9,0,12}},
+                                                                         {"Dominguez", {22, 2, 96}, 12000, "Centrocampista", 54, {6,15,7}},
+                                                                         {"Arreola", {20, 9, 85}, 14000, "Centrocampista", 142, {7,17,8}},
+                                                                         {"Álvarez", {2, 11, 94}, 13000, "Centrocampista", 4, {12,11,18}},
+                                                                         {"Cincotta", {28, 2, 91}, 16000, "Centrocampista", 152, {5,0,2}},
+                                                                         {"Robles", {2, 2, 96}, 14000, "Centrocampista", 44, {15,0,18}},
+                                                                         {"Galindo", {5, 3, 92}, 12000, "Centrocampista", 41, {9,10,12}},
+                                                                         {"Jesús López", {10, 4, 97}, 13000, "Centrocampista", 137, {13,14,15}},
+                                                                         {"Castellanos", {14, 12, 91}, 18000, "Delantero", 104, {7,11,8}},
+                                                                         {"Pérez", {26, 9, 88}, 10000, "Delantero", 9, {8,11,18}},
+                                                                         {"Guerra", {11, 12, 87}, 10000, "Delantero", 79, {0,13,12}}
+                                                                        }
+                                      },
+                                      {"Portugal", "Portugal",          {{"Patrício", {28, 7, 76}, 10000000, "Portero", 2, {0,1,3}},
+                                                                        {"Bastos", {4, 8, 87}, 12000000, "Portero", 9, {10,19,1}},
+                                                                        {"Henrique", {11, 7, 84}, 10000000,  "Defensa", 78, {0,16,14}},
+                                                                        {"Carrico", {13, 1, 81}, 10000000, "Defensa", 1, {1,4,12}},
+                                                                        {"Semedo", {19, 10, 83}, 9000000, "Defensa", 1, {3,13,19}},
+                                                                        {"Pereira", {11, 10, 84}, 10000000, "Defensa", 123, {6,13,0}},
+                                                                        {"Guerreiro", {27, 7, 76}, 14000000, "Defensa", 130, {4,14,16}},
+                                                                        {"Fonte", {19, 2, 78}, 10000000, "Defensa", 122, {7,11,12}},
+                                                                        {"Pepe", {22, 9, 84}, 9000000, "Defensa", 7, {8,18,12}},
+                                                                        {"Gomes", {31, 4, 81}, 16000000, "Centrocampista", 90, {9,1,12}},
+                                                                        {"Danilo Pereira", {3, 7, 80}, 18000000, "Centrocampista", 88, {5,13,19}},
+                                                                        {"Carvalho", {16, 3, 82}, 14000000, "Centrocampista", 110, {0,10,17}},
+                                                                        {"Neves", {22, 6, 86}, 10000000, "Centrocampista", 8, {0,13,14}},
+                                                                        {"Luís Miguel", {31, 5, 90}, 13000000, "Centrocampista", 81, {10,3,17}},
+                                                                        {"Moutinho", {2, 12, 91}, 12000000, "Centrocampista", 105, {0,1,13}},
+                                                                        {"Mário", {29, 11, 85}, 12000000, "Centrocampista", 145, {6,12,19}},
+                                                                        {"Silva", {13, 2, 87}, 17000000, "Centrocampista", 124, {10,3,0}},
+                                                                        {"Sanches", {27, 5, 90}, 17000000, "Centrocampista", 130, {6,8,12}},
+                                                                        {"Rafa Silva", {26, 1, 91}, 18000000, "Delantero", 104, {0,3,1}},
+                                                                        {"André Silva", {18, 10, 92}, 15000000, "Delantero", 9, {15,13,12}},
+                                                                        {"Cristiano", {7, 8, 87}, 10000000, "Delantero", 72, {0,9,7}}
+                                                                       }
+                                      },
+                                      {"Argentina", "Argentina", {{"Franco Armani", {16, 10, 86}, 10000, "Portero", 1, {19,6,11}},
+                                                                 {"Romero", {22, 4, 84}, 12000, "Portero", 97, {0,7,12}},
+                                                                 {"Otamendi", {12, 2, 88}, 10000,  "Defensa", 61, {0,8,13}},
+                                                                 {"Foyth", {12, 1, 98}, 18000, "Defensa", 1, {1,9,14}},
+                                                                 {"Marco Rojo", {22, 6, 80}, 11000, "Defensa", 46, {2,10,15}},
+                                                                 {"Nicolás", {31, 8, 92}, 18000, "Defensa", 60, {3,11,16}},
+                                                                 {"Marcos Acuña", {28, 8, 91}, 13000, "Centrocampista", 127, {8,15,0}},
+                                                                 {"Darío Gómez", {15, 2, 88}, 12000, "Centrocampista", 99, {9,16,0}},
+                                                                 {"Palacios", {5, 10, 98}, 17000, "Centrocampista", 4, {10,17,1}},
+                                                                 {"Roberto Pereyra", {7, 1, 91}, 13000, "Centrocampista", 50, {11,18,2}},
+                                                                 {"Lucas", {11, 7, 94}, 19000, "Centrocampista", 25, {12,19,3}},
+                                                                 {"Eduardo Salvio", {13, 7, 90}, 19000, "Centrocampista", 73, {13,0,5}},
+                                                                 {"Leandro Paredes", {29, 6, 94}, 19000, "Centrocampista", 92, {14,0,6}},
+                                                                 {"Joaquín Correa", {13, 8, 94}, 14000, "Centrocampista", 101, {15,1,7}},
+                                                                 {"Rodrigo De Paul", {24, 5, 94}, 11000, "Centrocampista", 58, {16,2,8}},
+                                                                 {"Martínez", {22, 5, 97}, 10000, "Delantero", 224, {17,3,9}},
+                                                                 {"Paulo Dybala", {15, 11, 93}, 16000, "Delantero", 1, {18,5,10}},
+                                                                 {"Messi", {8, 3, 80}, 13000000, "Delantero", 142, {19,6,11}}
+                                                                }
+                                      },
+                                      {"España", "España", {{"David de Gea", {7, 11, 90}, 11000000, "Portero", 1, {0,7,12}},
+                                                          {"Kepa Arrizabalaga", {3, 10, 94}, 11000000, "Portero", 144, {0,8,13}},
+                                                          {"Raúl Alboil", {4, 9, 85}, 9000000,  "Defensa", 97, {1,9,14}},
+                                                          {"Montoya", {14, 4, 91}, 12000000, "Defensa", 1, {2,10,15}},
+                                                          {"Diego Llorente", {16, 8, 93}, 9000000, "Defensa", 97, {3,11,16}},
+                                                          {"Bernat", {1, 3, 93}, 10000000, "Defensa", 43, {4,12,17}},
+                                                          {"Sergi Roberto", {7, 2, 92}, 11000000, "Defensa", 68, {6,13,18}},
+                                                          {"Sergio Ramos", {30, 3, 86}, 10000000, "Defensa", 98, {7,14,19}},
+                                                          {"Navas", {21, 11, 85}, 11000000, "Defensa", 25, {8,15,0}},
+                                                          {"Martínez", {17, 5, 91}, 12000000, "Defensa", 70, {9,16,0}},
+                                                          {"Alcántara", {11, 4, 91}, 10000000, "Centrocampista", 95, {10,17,1}},
+                                                          {"Santí Cazorla", {13, 12, 84}, 11000000, "Centrocampista", 84, {11,18,2}},
+                                                          {"Romero", {28, 9, 92}, 8000000, "Centrocampista", 118, {12,19,3}},
+                                                          {"Isco", {21, 4, 92}, 9000000, "Centrocampista", 91, {13,0,4}},
+                                                          {"Suso", {19, 11, 93}, 7000000, "Centrocampista", 18, {14,0,6}},
+                                                          {"Dani Parejo", {16, 4, 89}, 10000000, "Centrocampista", 87, {15,1,7}},
+                                                          {"Sergio Busquets", {16, 7, 88}, 8000000, "Centrocampista", 46, {16,2,8}},
+                                                          {"Gerard Moreno", {7, 4, 92}, 10000000, "Delantero", 10, {17,3,9}},
+                                                          {"Iago Aspas", {1, 8, 87}, 14000000, "Delantero", 82, {18,4,10}},
+                                                          {"Marco Asensio", {21, 1, 96}, 12000000, "Delantero", 115, {19,6,11}},
+                                                          {"Álvaro Morata", {23, 10, 92}, 11000000, "Delantero", 73, {0,7,12}}
+                                                         }
+                                      },
+                                      {"Getafe", "Getafe", {{"Codina", {26, 7, 74}, 10000000, "Portero", 1, {1,9,14}},
+                                                            {"Molla", {4, 6, 87}, 15000000, "Portero", 118, {2,10,15}},
+                                                            {"Alexis", {9, 7, 82}, 14000000,  "Defensa", 94, {3,11,16}},
+                                                            {"Escudero", {13, 11, 81}, 11000000, "Defensa", 56, {4,12,17}},
+                                                            {"Lago", {17, 10, 81}, 11000000, "Defensa", 84, {5,13,18}},
+                                                            {"Lisandro", {11, 8, 84}, 12000000, "Defensa", 83, {6,14,19}},
+                                                            {"Lopo", {25, 7, 74}, 10000000, "Defensa", 17, {8,15,0}},
+                                                            {"Rafa", {19, 12, 78}, 9000000, "Defensa", 88, {9,16,0}},
+                                                            {"Valera", {20, 9, 82}, 12000000, "Defensa", 38, {10,17,1}},
+                                                            {"Borja", {31, 5, 81}, 9000000, "Centrocampista", 90, {11,18,2}},
+                                                            {"Diego Castro", {1, 7, 78}, 15000000, "Centrocampista", 104, {12,19,3}},
+                                                            {"Gavilan", {16, 1, 82}, 11000000, "Centrocampista", 74, {13,0,4}},
+                                                            {"Juan Rodriguez", {20, 6, 84}, 9000000, "Centrocampista", 11, {14,0,5}},
+                                                            {"Lacen", {31, 3, 90}, 10000000, "Centrocampista", 10, {12,1,6}},
+                                                            {"Lafita", {12, 12, 89}, 13000000, "Centrocampista", 51, {13,2,8}},
+                                                            {"Michel", {29, 9, 85}, 9000000, "Centrocampista", 42, {14,3,9}},
+                                                            {"Mosquera", {11, 2, 85}, 8000000, "Centrocampista", 94, {15,4,10}},
+                                                            {"Pedro Leon", {25, 5, 90}, 14000000, "Centrocampista", 151, {16,5,11}},
+                                                            {"Ciprian", {26, 11, 91}, 13000000, "Delantero", 76, {17,6,12}},
+                                                            {"Colunga", {21, 8, 92}, 14000000, "Delantero", 93, {18,8,13}},
+                                                            {"Miku", {7, 6, 76}, 12000000, "Delantero", 36, {19,9,14}}
+                                                           }
+                                      },
+                                      {"Colombia", "Colombia",{{"Ospina", {7, 6, 75}, 9000000, "Portero", 1, {0,10,15}},
+                                                              {"Vargas", {13, 7, 86}, 12000000, "Portero", 117, {0,11,16}},
+                                                              {"Davinson", {30, 6, 83}, 9000000,  "Defensa", 93, {1,12,17}},
+                                                              {"Medina", {22, 12, 80}, 10000000, "Defensa", 69, {2,13,18}},
+                                                              {"Arias", {8, 9, 82}, 9000000, "Defensa", 77, {3,14,19}},
+                                                              {"Mojica", {20, 9, 83}, 10000000, "Defensa", 43, {4,15,0}},
+                                                              {"Murillo", {6, 6, 75}, 8000000, "Defensa", 107, {5,16,0}},
+                                                              {"James", {10, 3, 80}, 12000000, "Centrocampista", 14, {9,19,3}},
+                                                              {"Wilmar", {22, 6, 79}, 9000000, "Centrocampista", 97, {10,0,4}},
+                                                              {"Cuadrado", {5, 2, 81}, 13000000, "Centrocampista", 93, {11,0,5}},
+                                                              {"Martínez", {06, 4, 89}, 11000000, "Delantero", 1, {17,6,12}},
+                                                              {"Falcao", {5, 12, 90}, 12000000, "Delantero", 109, {18,7,13}},
+                                                              {"Zapata", {7, 9, 91}, 10000000, "Delantero", 36, {19,9,14}},
+                                                              {"Muriel", {26, 7, 86}, 13000000, "Delantero", 65, {20,10,15}}
+                                                             }
+                                      },
+                                      {"Italia", "Italia",     {{"Gianluigi", {25, 2, 99}, 9000000, "Portero", 8, {0,11,16}},
+                                                               {"Salvatore", {12, 2, 87}, 12000000, "Portero", 118, {1,12,17}},
+                                                               {"Alessio", {12, 1, 95}, 10000000,  "Defensa", 36, {2,13,18}},
+                                                               {"Armando Izzo", {2, 3, 92}, 12000000, "Defensa", 87, {3,14,19}},
+                                                               {"Leonardo", {25, 3, 93}, 10000000, "Defensa", 116, {4,15,0}},
+                                                               {"Cristiano Biraghi", {1, 9, 92}, 9000000, "Defensa", 26, {5,16,0}},
+                                                               {"Francesco", {26, 4, 75}, 9000000, "Defensa", 87, {6,17,1}},
+                                                               {"Chiellini", {18, 9, 77}, 9000000, "Defensa", 73, {7,18,2}},
+                                                               {"D'Ambrosio", {21, 2, 83}, 11000000, "Defensa", 88, {8,19,3}},
+                                                               {"Cristante", {30, 9, 80}, 9000000, "Centrocampista", 36, {10,0,4}},
+                                                               {"Zaniolo", {2, 5, 79}, 11000000, "Centrocampista", 104, {11,0,5}},
+                                                               {"Pellegrini", {15, 2, 81}, 11000000, "Centrocampista", 87, {12,1,6}},
+                                                               {"Frello", {21, 10, 85}, 8000000, "Centrocampista", 1, {13,2,7}},
+                                                               {"Bonaventura", {30, 1, 89}, 11000000, "Centrocampista", 123, {14,3,8}},
+                                                               {"Verratti", {1, 11, 90}, 10000000, "Centrocampista", 54, {15,4,10}},
+                                                               {"Mandragora", {28, 12, 84}, 13000000, "Centrocampista", 83, {16,5,11}},
+                                                               {"Barella", {12, 1, 86}, 10000000, "Centrocampista", 52, {17,6,12}},
+                                                               {"Lazzari", {26, 7, 89}, 9000000, "Centrocampista", 72, {18,7,13}},
+                                                               {"Berardi", {25, 10, 90}, 10000000, "Delantero", 98, {19,8,14}},
+                                                               {"Belotti", {17, 7, 91}, 12000000, "Delantero", 90, {0,10,15}},
+                                                               {"Matteo", {6, 6, 86}, 11000000, "Delantero", 25, {0,11,16}}
+                                                              }
+                              }
+
+        };
+//muestra la plantilla de un equipo de tipo struct equipo
+void mostrarPlantilla (struct equipo seleccionado){
+
+
+                    //nombre del equipo y ciudad a la que representa
+        cout<< "Nombre equipo: "<< seleccionado.nombre<< "\nCiudad: "<< seleccionado.ciudad<< "\n\n"
+                "Nombre\t\t\tPosicion\tFicha\t\tPuntos\tF. Nac.\t\tUltimos equipos\n\n";  //encabezamiento de la lista de jugadores
+                    //3 tabs para el nombre, 1 tab para posicion, 2 tabs para ficha, 1 tab para puntos, 2 tabs para f.nac.
+        for (int i=0; i<21; i++){  //recorremos el vector de la plantilla del equipo para mostrar cada jugador
+
+                    cout<< seleccionado.plantilla[i].nombre;            //nombre del jugador en esa posicion del vector plantilla
+                    if ((strlen (seleccionado.plantilla[i].nombre)) < 8) cout<< "\t\t\t";  //si el nombre del jugador tiene menos de 8 caracteres
+//incluimos 3 tabs
+                    else if ((strlen (seleccionado.plantilla[i].nombre)) < 16) cout<< "\t\t";  //si el nombre es mayor de 8 y menor de 16
+//caracteres incluimos 2 tabs
+                    else cout<< "\t";               //si tiene 16 caracteres o más un solo tab
+
+                    cout<< seleccionado.plantilla[i].posicion;          //posicion del jugador en esa posicion de "plantilla"
+                    if ((strlen (seleccionado.plantilla[i].posicion)) < 8) cout<< "\t\t";  //si la posicion tiene menos de 8 caracteres incluimos 2
+//tabs
+                    else cout<< "\t";           //si tiene 8 o más caracteres incluimos un unico tab
+
+                    if (seleccionado.plantilla[i].ficha < 9999999) cout<< " ";          //si la ficha tiene menos de 8 cifras incluimos un espacio
+//antes de ella
+                    cout<<seleccionado.plantilla[i].ficha;  //ficha del jugador en esa posicion de "plantilla"
+                    cout<< "\t";        //tabulador
+
+                    cout<< seleccionado.plantilla[i].puntosLiga<< "\t";  //puntos en la liga fantastica del jugador en esa posicion de plantilla
+
+                    mostrarFecha (seleccionado.plantilla[i].fechaNacimiento);  //mostramos la fecha de nacimiento del jugador en la
+//posicion correspondiente de "plantilla"
+                    if ((seleccionado.plantilla[i].fechaNacimiento.dia > 9) && (seleccionado.plantilla[i].fechaNacimiento.mes > 9)) cout<< "\t";  //si tanto el dia como el mes de la fecha de nacimiento tienen dos cifras incluimos un unico tab
+                    else cout<< "\t\t";         //en caso contrario incluimos 2 tabs
+
+                    for (int j=0; j<3; j++){            //recorremos el vector que contiene la posicion en "equipo" de los ultimos equipos en
+//que el jugador ha estado
+
+                        int a=seleccionado.plantilla[i].ultimosEquipos[j];
+                        cout<<equipo[a].nombre;
+
+                             //mostramos el nombre del equipo que se encuentra en esa posicion
+                        if (j<2) cout<< " / ";          //tras los dos primeros equipos mostramos una barra de separacion
+                    }
+                    cout<< "\n";  //terminamos la linea
+                }  //fin de los datos de un jugador
+}
+
+//muestra los datos de un jugador tipo struct jugador, contenido en un struct equipo
+void mostrarJugador (struct jugador seleccionado, struct equipo equipo){
+
+        cout<< "Nombre\t\t\tPosicion\tFicha\t\tPuntos\tF. Nac.\t\tEquipo\n";  //cabecera
+        cout<< seleccionado.nombre;                                       //la funcion usa la misma tabulacion que en el caso anterior
+                    if ((strlen (seleccionado.nombre)) < 8) cout<< "\t\t\t";  //para cuadrar los datos y que aparezcan ordenados
+                    else if ((strlen (seleccionado.nombre)) < 16) cout<< "\t\t";
+                    else cout<< "\t";
+
+        cout<< seleccionado.posicion;
+                    if ((strlen (seleccionado.posicion)) < 8) cout<< "\t\t";
+                    else cout<< "\t";
+
+                    if (seleccionado.ficha < 9999999) cout<< " ";
+        cout<<seleccionado.ficha<< "\t";
+
+        cout<< seleccionado.puntosLiga<< "\t";
+
+        mostrarFecha (seleccionado.fechaNacimiento);
+                    if ((seleccionado.fechaNacimiento.dia > 9) && (seleccionado.fechaNacimiento.mes > 9)) cout<< "\t";
+                    else cout<< "\t\t";
+
+        cout<< equipo.nombre << "\n";
+
+}
+
+
+ int main(int argc, char** argv){
+                  int equi=0;
+                  int k=0;
+
+
+        char seleccion[80];             //cadena para la seleccion del nombre de equipo o jugador en caso necesario
+        int respuesta, edad;        //variable respuesta para la seleccion del menu, se inicializa a 1 para entrar en el bucle
+                                    //variable edad para introducir el año de nacimiento del jugador en las opciones necesarias
+        struct jugadores futbolista[420];   //vector de "struct jugador" con los 420 jugadores registrados en los 20 equipos
+
+        bool encontrado;        //variable booleana para controlar si los nombres se encuentran o no
+
+                                            //declaracion de todos los equipos y sus correspondientes jugadores
+
+
+
+                {
+            menu:
+           system ("cls");                     //seleccion 1
+
+
+int main();
+{
+    system ("COLOR 3F");
+    vector<string> usuarios;
+    vector<string> claves;
+
+    // Se añaden usuarios al vector
+    usuarios.push_back("manuel");
+    usuarios.push_back("ortega");
+    usuarios.push_back("escobar");
+
+    // Se añaden claves al vector
+    claves.push_back("123");
+    claves.push_back("123");
+    claves.push_back("123");
+
+
+
+    string usuario, password;
+
+    int contador = 0;
+    bool ingresa = false;
+
+    do {
+        system("cls");
+        cout << "\n\t\tLOGIN DE USUARIO" << endl;
+        cout << "\t\tINICIAR SESION" << endl;
+        cout << "\t\t----------------" << endl;
+        cout << "\n\tUsuario: ";
+        getline(cin, usuario);
+
+        char caracter;
+
+        cout << "\tPassword: ";
+        caracter = getch();
+
+        password = "";
+
+        while (caracter != ENTER) {
+
+            if (caracter != BACKSPACE) {
+                password.push_back(caracter);
+                cout << "*";
+
+            } else {
+                if (password.length() > 0) {
+                    cout << "\b \b";
+                    password = password.substr(0, password.length() - 1);
+                }
+            }
+
+            caracter = getch();
+        }
+
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (usuarios[i] == usuario && claves[i] == password) {
+                ingresa = true;
+                break;
+            }
+        }
+
+        if (!ingresa) {
+            cout << "\n\n\tEl usuario y/o password son incorrectos" << endl;
+            cin.get();
+            contador++;
+        }
+
+    } while (ingresa == false && contador < 3);
+
+    if (ingresa == false) {
+              cout << "\n\tUsted no pudo ingresar al sistema. ADIOS" << endl;
+    } else {
+        cout << "\n\n\t\tBIENVENIDO AL LOBI" << endl;
+        cout << "\t\t---------------------" << endl;
+        int main();
+
+       int a, b, i,j,c,p,promedio,suma,club,po;
+        while (1==1) {
+        cout << "\t\t---------------------" << endl;                                                        //menu principal
+
+       cout << "\nOPCIONES\n\n";
+        cout << "1) Equipos\n";
+        cout << "2) Jugadores\n";
+        cout << "3) Simular Partido\n";
+        cout << "4) Ver Resultados Entre Equipos\n";
+        cout << "5) Tabla de Acumulado\n";
+        cout << "6) Salir Del Sistema\n";
+        cout << "\t\t---------------------" << endl;
+
+        cin>> respuesta;              //opcion seleccionada del menu principal
+
+          switch(respuesta){
+              case 1:
+              system ("cls");                     //seleccion 1
+               cout<< "EQUIPOS DE LA LIGA\n\n";              //muestra los equipos en la parte superior de la pantalla
+          for (int k=0; k<20; k++) cout<< equipo[k].nombre<< "\n";
+            encontrado = false;                 //hacemos encontrado false
+            cout<< "Nombre del equipo: ";   //pedimos el nombre del equipo
+           // getchar();
+            cin>>seleccion;                   //obtenemos el nombre del equipo a buscar
+
+                              //borramos pantalla
+                                            //recorremos el vector que contiene los equipos, comparando la cadena introducida por el usuario
+//con el nombre de cada equipo
+            for (int i=0; i<20; i++) {
+
+
+               if (strcmp (seleccion, equipo[i].nombre) == 0){        //strcmp nos devuelve 0 en caso de que las
+//cadenas comparadas sean iguales
+            mostrarPlantilla (equipo[i]);            //en caso de coincidencia mostramos la plantilla del equipo definido en esa posicion
+              encontrado = true;                //hacemos que encontrado sea true cuando hemos encontrado la coincidencia. De lo
+            }                        //contrario seguira siendo false
+
+                   }
+            if (encontrado == false) cout<< "El equipo no se ha encontrado\n";  //en caso de no haber encontrado el equipo le
+//damos la informacion al usuario
+            cout<<"Deseas Regresar al Menu: 0=si 11=no\n";
+            cin>>respuesta;
+            if(respuesta==0){
+           goto menu;}
+            break;
+
+            case 2:
+             system ("cls");         //seleccion 2
+            cout<< "Nombre del jugador: ";  //pedimos el nombre del jugador a buscar
+         //   getchar();
+            cin>>seleccion;         //obtenemos el nombre del jugador
+
+                    //borramos la pantalla
+            encontrado = false;         //hacemos encontrado false
+            for (int i=0; i<20; i++){           //recorremos el vector con los equipos
+              for (int j=0; j<21; j++)          //en cada equipo recorremos cada jugador de la plantilla
+                if (strcmp (seleccion, equipo[i].plantilla[j].nombre) == 0){ //si la cadena obtenida en la seleccion coincide con el nombre
+//del jugador
+                  mostrarJugador (equipo[i].plantilla[j], equipo[i]);           //mostramos la informacion del jugador
+                  encontrado = true;            //hacemos encontrado true. Si no lo hemos encontrado seguira siendo false
+                }
+            }
+
+            if (encontrado == false) cout<< "El jugador no se ha encontrado\n";   //en caso de no haber encontrado el jugador le
+//damos la informacion al usuario
+             cout<<"Deseas Regresar al Menu: 0=si 11=no\n";
+            cin>>respuesta;
+            if(respuesta==0){
+           goto menu;}
+            break;
+
+            case 3:
+                {
+
+for (i=0; i<2; i++) {
+cout << "Ronda N." << i+1 << endl;
+for (j=0; j<1; j++) {
+cout << "Partidos Jugados: "; cin >> futbol[i][j].PJ;
+cout << "Patidos Ganados: "; cin >> futbol[i][j].PG;
+cout << "Partidos Empatados: "; cin >> futbol[i][j].PE;
+cout << "Partidos Perdidos: "; cin >> futbol[i][j].PP;
+
+}
+}
+
+//promedio
+for (i=0; i<3; i++) {
+        suma = 0;
+        for (j=0; j<1; j++) {
+            futbol[i][j].PTS = (futbol[i][j].PG * 3 + futbol[i][j].PE * 1);
+        }
+}}
+            cout<<"Deseas Regresar al Menu: 0=si 11=no\n";
+            cin>>respuesta;
+            if(respuesta==0){
+           goto menu;}
+            break;
+
+            case 4:
+            cout<< "El equipo con la plantilla mas joven es:\n\n";
+            cout<<"Deseas Regresar al Menu: 0=si 1=no\n";
+            cin>>respuesta;
+            if(respuesta==0){
+           goto menu;}
+            break;
+
+            case 5:
+            cout<< "\n"<< endl;
+            //mostrar tabla
+            cout << endl;
+            cout<< "PO  CLUB\t   PJ  PG  PE  PP  GF  GC\tPTS"<< endl;
+            for (i=0; i<3; i++){
+            for (j=0; j<1; j++)
+cout << "\t\t   " << futbol[i][j].PJ << "   " << futbol[i][j].PG << "   " << futbol[i][j].PE
+                << "   " << futbol[i][j].PP << "\t\t" << futbol[i][j].PTS;
+cout << endl;
+}
+            cout<<"Deseas Regresar al Menu: 0=No 1=Si\n";
+            cin>>respuesta;
+            if(respuesta==0){
+           goto menu;}
+                break;
+
+            case 6:
+            system ("COLOR E0");
+            cout<< "Seguro que quieres Salir...??   SI o NO\n"<< endl;
+            cout<< "\n 1- SI";
+            cout<< "\n 2- NO\n\n";
+            cin >> b;
+            if(b==1)
+            {
+                return 0;
+            }
+            else
+            {
+             int main();
+            }
+        default:
+            cout<< "Opcion No Valida"<< endl;
+            break;
+        }}
+            while(a != 3);
+     return main();
+     }}}
+//   system("cls");  //borramos la pantalla para volver a mostrar los equipos y las opciones del menu
+          return 0;}
+//fin del bucle principal
+   //  return 0;
